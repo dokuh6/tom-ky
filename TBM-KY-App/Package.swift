@@ -6,9 +6,9 @@ let package = Package(
     name: "TBM-KY-App",
     // サポートするプラットフォームとバージョンの指定
     // iPad (iOS) と Mac (macOS) の両方に対応させ、最低バージョンを指定します。
-    // これにより、ビルドターゲットがMacに設定された際のコンパイルエラーを防ぎます。
+    // 'dismiss'などのAPIがmacOS 12.0以降で利用可能なため、バージョンをv12に設定します。
     platforms: [
-        .iOS(.v15), .macOS(.v11)
+        .iOS(.v15), .macOS(.v12)
     ],
     // このパッケージが生成するプロダクト（成果物）の定義
     products: [

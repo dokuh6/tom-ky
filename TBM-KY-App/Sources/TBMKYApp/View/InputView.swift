@@ -185,8 +185,15 @@ struct InputView: View {
 // MARK: - プレビュー
 struct InputView_Previews: PreviewProvider {
     static var previews: some View {
-        InputView()
+        let view = InputView()
             .previewDevice("iPad Pro (12.9-inch) (5th generation)")
-            .previewInterfaceOrientation(.portrait)
+
+        // .previewInterfaceOrientation はiOSでのみ利用可能なため、
+        // プラットフォーム条件コンパイルで囲みます。
+        #if os(iOS)
+        view.previewInterfaceOrientation(.portrait)
+        #else
+        view
+        #endif
     }
 }
