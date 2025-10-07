@@ -121,7 +121,11 @@ struct RecordDetailView: View {
             }
         }
         .navigationTitle(dateFormatter.string(from: record.date))
+        // .navigationBarTitleDisplayMode(.inline) はiOSでのみ利用可能なため、
+        // プラットフォーム条件コンパイルで囲みます。
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
 }
 
