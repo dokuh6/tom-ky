@@ -19,36 +19,36 @@ struct RecordListView: View {
 
     var body: some View {
         NavigationView {
-            // viewModel.recordsが空の場合の表示
-            if viewModel.records.isEmpty {
-                Text("記録がありません。\n右上の「+」ボタンから新規作成してください。")
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-                    .navigationTitle("TBM記録一覧")
-                    .navigationBarItems(trailing: addButton)
-            } else {
-                // リスト形式で記録を表示
-                List(viewModel.records) { record in
-                    // 各行をタップするとRecordDetailViewに遷移する
-                    NavigationLink(destination: RecordDetailView(record: record)) {
-                        // 各行の表示内容
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(record.officeName)
-                                .font(.headline)
-                            Text(record.workContent)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                                .lineLimit(1) // 1行に制限
-                            Text(dateFormatter.string(from: record.date))
-                                .font(.caption)
-                                .foregroundColor(.gray)
+            Group {
+                // viewModel.recordsが空の場合の表示
+                if viewModel.records.isEmpty {
+                    Text("記録がありません。\n右上の「+」ボタンから新規作成してください。")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                } else {
+                    // リスト形式で記録を表示
+                    List(viewModel.records) { record in
+                        // 各行をタップするとRecordDetailViewに遷移する
+                        NavigationLink(destination: RecordDetailView(record: record)) {
+                            // 各行の表示内容
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(record.officeName)
+                                    .font(.headline)
+                                Text(record.workContent)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                    .lineLimit(1) // 1行に制限
+                                Text(dateFormatter.string(from: record.date))
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            .padding(.vertical, 5)
                         }
-                        .padding(.vertical, 5)
                     }
                 }
-                .navigationTitle("TBM記録一覧")
-                .navigationBarItems(trailing: addButton)
             }
+            .navigationTitle("TBM記録一覧")
+            .navigationBarItems(trailing: addButton)
         }
         .onAppear {
             // 画面が表示されるたびに記録を再読み込みする
