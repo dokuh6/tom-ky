@@ -10,13 +10,6 @@ let package = Package(
     platforms: [
         .iOS(.v15), .macOS(.v12)
     ],
-    // このパッケージが生成するプロダクト（成果物）の定義
-    products: [
-        // TBMKYAppという名前の実行可能ファイル（アプリ）を定義します。
-        .executable(
-            name: "TBMKYApp",
-            targets: ["TBMKYApp"])
-    ],
     // 依存関係の定義（今回は外部ライブラリを使用しないため空）
     dependencies: [],
     // ターゲット（ソースコードの集合）の定義
