@@ -159,22 +159,26 @@ struct InputView: View {
             }
             .navigationTitle("TBM記録票")
             .toolbar {
-                // ナビゲーションバーの右側にボタンを配置
-                ToolbarItem(placement: .navigationBarTrailing) {
+                // キャンセルボタンを配置 (クロスプラットフォーム対応)
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("キャンセル") {
+                        dismiss() // ビューを閉じる
+                    }
+                }
+                // 保存ボタンを配置 (クロスプラットフォーム対応)
+                ToolbarItem(placement: .primaryAction) {
                     Button("保存") {
                         viewModel.saveRecord()
                         dismiss() // ビューを閉じる
                     }
                 }
-                // ナビゲーションバーの左側にボタンを配置
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("キャンセル") {
-                        dismiss() // ビューを閉じる
-                    }
-                }
             }
         }
-        .navigationViewStyle(.stack) // iPadでの表示崩れを防ぐ
+        // .navigationViewStyle(.stack) はiPad(iOS)でのみ利用し、macOSでは利用できないため、
+        // プラットフォーム条件コンパイルで囲みます。
+        #if os(iOS)
+        .navigationViewStyle(.stack)
+        #endif
     }
 }
 

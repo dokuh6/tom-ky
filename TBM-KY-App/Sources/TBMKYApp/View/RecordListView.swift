@@ -25,7 +25,11 @@ struct RecordListView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .navigationTitle("TBM記録一覧")
-                    .navigationBarItems(trailing: addButton)
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            addButton
+                        }
+                    }
             } else {
                 // リスト形式で記録を表示
                 List(viewModel.records) { record in
@@ -47,7 +51,11 @@ struct RecordListView: View {
                     }
                 }
                 .navigationTitle("TBM記録一覧")
-                .navigationBarItems(trailing: addButton)
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        addButton
+                    }
+                }
             }
         }
         .onAppear {
