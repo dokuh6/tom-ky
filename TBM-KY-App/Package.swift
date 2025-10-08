@@ -20,7 +20,10 @@ let package = Package(
             name: "TBMKYApp",
             // ソースファイルが格納されているパス
             // デフォルトは "Sources/TBMKYApp" ですが、明示的に指定します。
-            path: "Sources/TBMKYApp"
+            path: "Sources/TBMKYApp",
+            // Resourcesフォルダをバンドルに含めるよう指示します。
+            // これにより、Info.plistがアプリに組み込まれます。
+            resources: [.process("Resources")]
         )
     ]
 )
