@@ -56,23 +56,24 @@ struct InputView: View {
 
                 // MARK: - 作業分担者名セクション
                 Section(header: Text("作業分担者名").font(.headline)) {
-                    // $viewModel.record.workers の各要素にアクセスするためにインデックスを使用
-                    ForEach(viewModel.record.workers.indices, id: \.self) { index in
+                    // $viewModel.record.workers を直接ループして、各要素へのバインディング($worker)を取得します。
+                    // これにより、安全かつ効率的にUIを更新でき、ランタイムクラッシュを防ぎます。
+                    ForEach($viewModel.record.workers) { $worker in
                         VStack(alignment: .leading) {
-                            Toggle("班長(作業監督者)", isOn: $viewModel.record.workers[index].isSupervisor)
+                            Toggle("班長(作業監督者)", isOn: $worker.isSupervisor)
                             HStack {
                                 Text("作業者名")
-                                TextField("名前", text: $viewModel.record.workers[index].name)
+                                TextField("名前", text: $worker.name)
                                     .multilineTextAlignment(.trailing)
                             }
                             HStack {
                                 Text("作業分担")
-                                TextField("分担内容", text: $viewModel.record.workers[index].assignment)
+                                TextField("分担内容", text: $worker.assignment)
                                      .multilineTextAlignment(.trailing)
                             }
                         }
                         // 最後の要素以外には区切り線を入れる
-                        if index < viewModel.record.workers.count - 1 {
+                        if worker.id != viewModel.record.workers.last?.id {
                             Divider()
                         }
                     }
@@ -87,20 +88,21 @@ struct InputView: View {
 
                 // MARK: - TBMK/Y セクション
                 Section(header: Text("TBMK/Y (危険予知)").font(.headline)) {
-                    ForEach(viewModel.record.kyItems.indices, id: \.self) { index in
+                    // $viewModel.record.kyItems を直接ループして、各要素へのバインディング($item)を取得します。
+                    ForEach($viewModel.record.kyItems) { $item in
                         VStack(alignment: .leading) {
                             HStack {
                                 Text("作業者名")
-                                TextField("名前", text: $viewModel.record.kyItems[index].workerName)
+                                TextField("名前", text: $item.workerName)
                                     .multilineTextAlignment(.trailing)
-                                Toggle("", isOn: $viewModel.record.kyItems[index].isChecked)
+                                Toggle("", isOn: $item.isChecked)
                                     .labelsHidden()
                             }
                             Text("K Y 内容")
-                            TextEditor(text: $viewModel.record.kyItems[index].content)
+                            TextEditor(text: $item.content)
                                 .frame(height: 50)
                         }
-                        if index < viewModel.record.kyItems.count - 1 {
+                        if item.id != viewModel.record.kyItems.last?.id {
                             Divider()
                         }
                     }
