@@ -19,11 +19,17 @@ let package = Package(
             // ターゲット名
             name: "TBMKYApp",
             // ソースファイルが格納されているパス
-            // デフォルトは "Sources/TBMKYApp" ですが、明示的に指定します。
             path: "Sources/TBMKYApp",
-            // Resourcesフォルダをバンドルに含めるよう指示します。
-            // これにより、Info.plistがアプリに組み込まれます。
-            resources: [.process("Resources")]
+            // リンカ設定を追加して、Info.plistを実行ファイルに直接埋め込みます。
+            // これが、バンドルIDをシステムに認識させるための正しい方法です。
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xlinker", "-sectcreate",
+                    "-Xlinker", "__TEXT",
+                    "-Xlinker", "__info_plist",
+                    "-Xlinker", "Sources/TBMKYApp/Resources/Info.plist"
+                ])
+            ]
         )
     ]
 )
